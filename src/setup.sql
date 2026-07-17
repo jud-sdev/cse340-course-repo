@@ -53,3 +53,54 @@ VALUES
 (3, 'Neighborhood Cleanup', 'Collect litter and beautify public streets.', 'West End District', '2026-08-30'),
 (3, 'Coat Drive Distribution', 'Distribute donated winter coats to families in need.', 'Community Shelter', '2026-09-10'),
 (3, 'Tutoring Program Launch', 'Set up and staff an after-school tutoring program.', 'Downtown Library', '2026-09-22');
+
+-- ========================================
+-- Category Table
+-- ========================================
+CREATE TABLE category (
+    category_id SERIAL PRIMARY KEY,
+    name VARCHAR(150) NOT NULL
+);
+
+-- ========================================
+-- Project-Category Junction Table
+-- (many-to-many: a project can have many categories,
+--  and a category can have many projects)
+-- ========================================
+CREATE TABLE project_category (
+    project_id INTEGER NOT NULL REFERENCES project(project_id),
+    category_id INTEGER NOT NULL REFERENCES category(category_id),
+    PRIMARY KEY (project_id, category_id)
+);
+
+-- ========================================
+-- Insert sample data: Categories
+-- ========================================
+INSERT INTO category (name)
+VALUES
+('Environmental'),
+('Educational'),
+('Community Service'),
+('Health and Wellness');
+
+-- ========================================
+-- Associate projects with categories
+-- category_id: 1=Environmental, 2=Educational, 3=Community Service, 4=Health and Wellness
+-- ========================================
+INSERT INTO project_category (project_id, category_id)
+VALUES
+(1, 3),          -- Community Center Renovation: Community Service
+(2, 3), (2, 4),  -- Wheelchair Ramp Build: Community Service, Health and Wellness
+(3, 3), (3, 1),  -- Public Park Pavilion: Community Service, Environmental
+(4, 2), (4, 3),  -- School Playground Repair: Educational, Community Service
+(5, 3),          -- Affordable Housing Framing: Community Service
+(6, 1),          -- Community Garden Planting: Environmental
+(7, 1), (7, 2),  -- Composting Workshop: Environmental, Educational
+(8, 1),          -- Rooftop Garden Setup: Environmental
+(9, 2), (9, 1),  -- Farmers Market Booth: Educational, Environmental
+(10, 1),         -- Fruit Tree Orchard: Environmental
+(11, 3),         -- Food Bank Sorting: Community Service
+(12, 3), (12, 4),-- Senior Home Visits: Community Service, Health and Wellness
+(13, 1), (13, 3),-- Neighborhood Cleanup: Environmental, Community Service
+(14, 3),         -- Coat Drive Distribution: Community Service
+(15, 2);         -- Tutoring Program Launch: Educational
