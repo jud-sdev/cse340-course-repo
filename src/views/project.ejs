@@ -13,6 +13,8 @@
             <a class="tag" href="/category/<%= category.category_id %>"><%= category.name %></a>
         <% }); %>
     </p>
+
+    <p><a href="/assign-categories/<%= project.project_id %>">Edit Categories</a></p>
 </main>
 
 <%- include('partials/footer') %>
