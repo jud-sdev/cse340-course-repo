@@ -15,6 +15,9 @@ import { showCategoriesPage, showCategoryDetailsPage } from './controllers/categ
 import { showAssignCategoriesForm, processAssignCategoriesForm } from './controllers/categories.js';
 import { showNewCategoryForm, processNewCategoryForm, showEditCategoryForm, processEditCategoryForm, categoryValidation } from './controllers/categories.js';
 import { testErrorPage } from './controllers/errors.js';
+import { showUserRegistrationForm, processUserRegistrationForm } from './controllers/users.js';
+import { showLoginForm, processLoginForm, processLogout } from './controllers/users.js';
+import { requireLogin, showDashboard } from './controllers/users.js';
 
 const router = express.Router();
 
@@ -71,6 +74,18 @@ router.get('/category/:id', showCategoryDetailsPage);
 // Routes to handle the assign categories to project form
 router.get('/assign-categories/:projectId', showAssignCategoriesForm);
 router.post('/assign-categories/:projectId', processAssignCategoriesForm);
+
+// User registration routes
+router.get('/register', showUserRegistrationForm);
+router.post('/register', processUserRegistrationForm);
+
+// User login and logout routes
+router.get('/login', showLoginForm);
+router.post('/login', processLoginForm);
+router.get('/logout', processLogout);
+
+// Protected route — requires a logged-in user
+router.get('/dashboard', requireLogin, showDashboard);
 
 // error-handling routes
 router.get('/test-error', testErrorPage);
