@@ -1,5 +1,5 @@
 import bcrypt from 'bcrypt';
-import { createUser, authenticateUser } from '../models/users.js';
+import { createUser, authenticateUser, getAllUsers } from '../models/users.js';
 
 const showUserRegistrationForm = (req, res) => {
     res.render('register', { title: 'Register' });
@@ -86,6 +86,17 @@ const showDashboard = (req, res) => {
     });
 };
 
+// Admin-only page listing all registered users; non-admins go to the dashboard
+const showUsersPage = async (req, res) => {
+    if (req.session.user.role_name !== 'admin') {
+        req.flash('error', 'You do not have permission to access that page.');
+        return res.redirect('/dashboard');
+    }
+
+    const users = await getAllUsers();
+    res.render('users', { title: 'Registered Users', users });
+};
+
 /**
  * Middleware factory to require a specific role for route access.
  * Returns middleware that checks if the logged-in user has the required role.
@@ -120,5 +131,6 @@ export {
     processLogout,
     requireLogin,
     showDashboard,
-    requireRole
+    requireRole,
+    showUsersPage
 };

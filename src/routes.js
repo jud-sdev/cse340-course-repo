@@ -17,7 +17,7 @@ import { showNewCategoryForm, processNewCategoryForm, showEditCategoryForm, proc
 import { testErrorPage } from './controllers/errors.js';
 import { showUserRegistrationForm, processUserRegistrationForm } from './controllers/users.js';
 import { showLoginForm, processLoginForm, processLogout } from './controllers/users.js';
-import { requireLogin, showDashboard, requireRole } from './controllers/users.js';
+import { requireLogin, showDashboard, requireRole, showUsersPage } from './controllers/users.js';
 
 const router = express.Router();
 
@@ -86,6 +86,9 @@ router.get('/logout', processLogout);
 
 // Protected route — requires a logged-in user
 router.get('/dashboard', requireLogin, showDashboard);
+
+// Admin-only page listing all registered users
+router.get('/users', requireLogin, showUsersPage);
 
 // error-handling routes
 router.get('/test-error', testErrorPage);

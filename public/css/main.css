@@ -178,6 +178,30 @@ a {
     outline-offset: 2px;
 }
 
+/* Tables (e.g. registered users list) */
+main table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1rem 0;
+}
+
+main th,
+main td {
+    text-align: left;
+    padding: 0.6rem 0.75rem;
+    border-bottom: 1px solid var(--border);
+}
+
+main th {
+    background-color: var(--brand);
+    color: #ffffff;
+    font-weight: 600;
+}
+
+main tbody tr:nth-child(even) {
+    background-color: var(--bg);
+}
+
 /* Flash messages */
 .alert {
     padding: 15px;
