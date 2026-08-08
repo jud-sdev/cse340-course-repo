@@ -60,6 +60,7 @@ app.use((req, res, next) => {
 app.use((req, res, next) => {
     res.locals.NODE_ENV = NODE_ENV;
     res.locals.isLoggedIn = req.session.user ? true : false;
+    res.locals.user = req.session.user || null;
     next();
 });
 

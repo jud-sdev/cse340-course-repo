@@ -17,7 +17,7 @@ import { showNewCategoryForm, processNewCategoryForm, showEditCategoryForm, proc
 import { testErrorPage } from './controllers/errors.js';
 import { showUserRegistrationForm, processUserRegistrationForm } from './controllers/users.js';
 import { showLoginForm, processLoginForm, processLogout } from './controllers/users.js';
-import { requireLogin, showDashboard } from './controllers/users.js';
+import { requireLogin, showDashboard, requireRole } from './controllers/users.js';
 
 const router = express.Router();
 
@@ -25,42 +25,42 @@ router.get('/', showHomePage);
 router.get('/organizations', showOrganizationsPage);
 router.get('/projects', showProjectsPage);
 
-// Route for new project page
-router.get('/new-project', showNewProjectForm);
+// Route for new project page (admin only)
+router.get('/new-project', requireRole('admin'), showNewProjectForm);
 
-// Route to handle new project form submission
-router.post('/new-project', projectValidation, processNewProjectForm);
+// Route to handle new project form submission (admin only)
+router.post('/new-project', requireRole('admin'), projectValidation, processNewProjectForm);
 
-// Route for edit project page
-router.get('/edit-project/:id', showEditProjectForm);
+// Route for edit project page (admin only)
+router.get('/edit-project/:id', requireRole('admin'), showEditProjectForm);
 
-// Route to handle edit project form submission
-router.post('/edit-project/:id', projectValidation, processEditProjectForm);
+// Route to handle edit project form submission (admin only)
+router.post('/edit-project/:id', requireRole('admin'), projectValidation, processEditProjectForm);
 router.get('/categories', showCategoriesPage);
 
-// Route for new category page
-router.get('/new-category', showNewCategoryForm);
+// Route for new category page (admin only)
+router.get('/new-category', requireRole('admin'), showNewCategoryForm);
 
-// Route to handle new category form submission
-router.post('/new-category', categoryValidation, processNewCategoryForm);
+// Route to handle new category form submission (admin only)
+router.post('/new-category', requireRole('admin'), categoryValidation, processNewCategoryForm);
 
-// Route for edit category page
-router.get('/edit-category/:id', showEditCategoryForm);
+// Route for edit category page (admin only)
+router.get('/edit-category/:id', requireRole('admin'), showEditCategoryForm);
 
-// Route to handle edit category form submission
-router.post('/edit-category/:id', categoryValidation, processEditCategoryForm);
+// Route to handle edit category form submission (admin only)
+router.post('/edit-category/:id', requireRole('admin'), categoryValidation, processEditCategoryForm);
 
-// Route for new organization page
-router.get('/new-organization', showNewOrganizationForm);
+// Route for new organization page (admin only)
+router.get('/new-organization', requireRole('admin'), showNewOrganizationForm);
 
-// Route to handle new organization form submission
-router.post('/new-organization', organizationValidation, processNewOrganizationForm);
+// Route to handle new organization form submission (admin only)
+router.post('/new-organization', requireRole('admin'), organizationValidation, processNewOrganizationForm);
 
-// Route for edit organization page
-router.get('/edit-organization/:id', showEditOrganizationForm);
+// Route for edit organization page (admin only)
+router.get('/edit-organization/:id', requireRole('admin'), showEditOrganizationForm);
 
-// Route to handle edit organization form submission
-router.post('/edit-organization/:id', organizationValidation, processEditOrganizationForm);
+// Route to handle edit organization form submission (admin only)
+router.post('/edit-organization/:id', requireRole('admin'), organizationValidation, processEditOrganizationForm);
 
 // Route for organization details page
 router.get('/organization/:id', showOrganizationDetailsPage);
@@ -71,9 +71,9 @@ router.get('/project/:id', showProjectDetailsPage);
 // Route for category details page
 router.get('/category/:id', showCategoryDetailsPage);
 
-// Routes to handle the assign categories to project form
-router.get('/assign-categories/:projectId', showAssignCategoriesForm);
-router.post('/assign-categories/:projectId', processAssignCategoriesForm);
+// Routes to handle the assign categories to project form (admin only)
+router.get('/assign-categories/:projectId', requireRole('admin'), showAssignCategoriesForm);
+router.post('/assign-categories/:projectId', requireRole('admin'), processAssignCategoriesForm);
 
 // User registration routes
 router.get('/register', showUserRegistrationForm);
