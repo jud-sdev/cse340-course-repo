@@ -8,5 +8,19 @@
     <% if (user && user.role_name === 'admin') { %>
         <p><a href="/users">View Registered Users</a></p>
     <% } %>
+
+    <h2>My Volunteer Projects</h2>
+    <% if (volunteerProjects && volunteerProjects.length > 0) { %>
+        <ul>
+            <% volunteerProjects.forEach(p => { %>
+                <li>
+                    <a href="/project/<%= p.project_id %>"><%= p.title %></a> (<%= p.organization_name %>)
+                    &mdash; <a href="/project/<%= p.project_id %>/remove-volunteer?from=dashboard">Remove</a>
+                </li>
+            <% }); %>
+        </ul>
+    <% } else { %>
+        <p>You have not volunteered for any projects yet.</p>
+    <% } %>
 </main>
 <%- include('partials/footer') %>

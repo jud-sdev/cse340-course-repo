@@ -134,3 +134,14 @@ CREATE TABLE users (
     role_id INTEGER REFERENCES roles(role_id),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+-- ========================================
+-- Project-Volunteer Junction Table
+-- (many-to-many: a user can volunteer for many projects,
+--  and a project can have many volunteers)
+-- ========================================
+CREATE TABLE project_volunteer (
+    user_id INTEGER NOT NULL REFERENCES users(user_id),
+    project_id INTEGER NOT NULL REFERENCES project(project_id),
+    PRIMARY KEY (user_id, project_id)
+);

@@ -1,5 +1,6 @@
 import bcrypt from 'bcrypt';
 import { createUser, authenticateUser, getAllUsers } from '../models/users.js';
+import { getVolunteerProjectsByUserId } from '../models/volunteers.js';
 
 const showUserRegistrationForm = (req, res) => {
     res.render('register', { title: 'Register' });
@@ -77,12 +78,15 @@ const requireLogin = (req, res, next) => {
     next();
 };
 
-const showDashboard = (req, res) => {
+const showDashboard = async (req, res) => {
     const user = req.session.user;
+    const volunteerProjects = await getVolunteerProjectsByUserId(user.user_id);
+
     res.render('dashboard', {
         title: 'Dashboard',
         name: user.name,
-        email: user.email
+        email: user.email,
+        volunteerProjects
     });
 };
 

@@ -18,6 +18,7 @@ import { testErrorPage } from './controllers/errors.js';
 import { showUserRegistrationForm, processUserRegistrationForm } from './controllers/users.js';
 import { showLoginForm, processLoginForm, processLogout } from './controllers/users.js';
 import { requireLogin, showDashboard, requireRole, showUsersPage } from './controllers/users.js';
+import { processAddVolunteer, processRemoveVolunteer } from './controllers/volunteers.js';
 
 const router = express.Router();
 
@@ -67,6 +68,10 @@ router.get('/organization/:id', showOrganizationDetailsPage);
 
 // Route for service project details page
 router.get('/project/:id', showProjectDetailsPage);
+
+// Volunteer sign-up / removal routes (must be logged in)
+router.get('/project/:id/volunteer', requireLogin, processAddVolunteer);
+router.get('/project/:id/remove-volunteer', requireLogin, processRemoveVolunteer);
 
 // Route for category details page
 router.get('/category/:id', showCategoryDetailsPage);

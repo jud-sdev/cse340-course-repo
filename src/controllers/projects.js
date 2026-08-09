@@ -2,6 +2,7 @@
 import { getUpcomingProjects, getProjectDetails, createProject, updateProject } from '../models/projects.js';
 import { getCategoriesByProjectId } from '../models/categories.js';
 import { getAllOrganizations } from '../models/organizations.js';
+import { isUserVolunteeringForProject } from '../models/volunteers.js';
 import { body, validationResult } from 'express-validator';
 
 // The number of upcoming service projects to display on the projects page
@@ -43,7 +44,13 @@ const showProjectDetailsPage = async (req, res) => {
     const categories = await getCategoriesByProjectId(projectId);
     const title = 'Service Project Details';
 
-    res.render('project', { title, project, categories });
+    // Determine whether the logged-in user is already volunteering for this project
+    let isVolunteering = false;
+    if (req.session.user) {
+        isVolunteering = await isUserVolunteeringForProject(req.session.user.user_id, projectId);
+    }
+
+    res.render('project', { title, project, categories, isVolunteering });
 };
 
 const showNewProjectForm = async (req, res) => {

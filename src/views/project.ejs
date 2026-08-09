@@ -14,6 +14,15 @@
         <% }); %>
     </p>
 
+    <% if (user) { %>
+        <% if (isVolunteering) { %>
+            <p>You are volunteering for this project.</p>
+            <p><a href="/project/<%= project.project_id %>/remove-volunteer">Remove me from this project</a></p>
+        <% } else { %>
+            <p><a href="/project/<%= project.project_id %>/volunteer">Volunteer for this project</a></p>
+        <% } %>
+    <% } %>
+
     <% if (user && user.role_name === 'admin') { %>
         <p><a href="/edit-project/<%= project.project_id %>">Edit Project</a></p>
         <p><a href="/assign-categories/<%= project.project_id %>">Edit Categories</a></p>
